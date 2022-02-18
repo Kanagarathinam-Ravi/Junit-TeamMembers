@@ -11,24 +11,29 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class DemoApplicationTests {
 
+	/**
+	 * Checks json file array contains name from getname() or not, if contains test pass otherwise
+	 * test fail
+	 *
+	 * @throws ParseException
+	 * @throws FileNotFoundException
+	 */
 	@Test
-	void contextLoads() throws ParseException, FileNotFoundException {
-	    HelloWorldController controller = new HelloWorldController();
+	void contextLoads() {
 		JSONParser parser = new JSONParser();
-		FileReader reader = new FileReader("src/main/resources/json/team.json");
-
 		Object obj = null;
 		try {
+			FileReader reader = new FileReader("src/main/resources/json/team.json");
 			obj = parser.parse(reader);
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
         JSONArray teamObject = (JSONArray) obj;
-		assertEquals(controller.getTeamMembersName(), teamObject);
+		assertTrue(teamObject.contains(HelloWorldController.getName()));
 	}
 }
